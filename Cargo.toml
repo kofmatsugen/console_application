@@ -1,0 +1,10 @@
+[package]
+name = "console"
+version = "0.1.0"
+authors = ["Kaneyuki Hiromasa <matsugen2511@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+sprite-studio-converter={path = "../sprite-studio-converter/"}
+log="*"
+env_logger="*"
