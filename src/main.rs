@@ -1,7 +1,7 @@
 use sprite_studio_converter::convert_to_file;
 
 fn main() -> Result<(), Box<std::error::Error>> {
-    env_logger::init()?;
+    env_logger::init();
     println!(
         "{:?}",
         convert_to_file(
