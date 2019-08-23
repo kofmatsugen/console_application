@@ -1,4 +1,4 @@
-use sprite_studio_converter::convert_to_file;
+use sprite_studio_converter::prefab::convert_to_file;
 
 fn main() -> Result<(), Box<std::error::Error>> {
     env_logger::init();
