@@ -5,7 +5,7 @@ fn main() -> Result<(), Box<std::error::Error>> {
     println!(
         "{:?}",
         convert_to_timeline(
-            "data/sprite_studio/converted",
+            "amethyst_sandbox/resources",
             "data/sprite_studio/houou.sspj",
         )?
     );
