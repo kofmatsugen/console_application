@@ -6,7 +6,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "{:?}",
         convert_to_timeline(
             "amethyst_sandbox/resources",
-            "data/sprite_studio/houou.sspj",
+            "data/sprite_studio/studio_logo/splash1024.sspj",
         )?
     );
 
