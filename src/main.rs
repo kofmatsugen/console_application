@@ -10,6 +10,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "amethyst_sandbox/resources",
         "data/sprite_studio/houou/houou.sspj",
     )?;
+    convert_to_timeline(
+        "amethyst_sandbox/resources",
+        "data/sprite_studio/template/character_template1.sspj",
+    )?;
 
     Ok(())
 }
