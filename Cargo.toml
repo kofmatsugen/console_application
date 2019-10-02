@@ -6,5 +6,6 @@ edition = "2018"
 
 [dependencies]
 sprite-studio-converter={path = "../sprite-studio-converter/"}
+fight_game={path="../fight_game/"}
 log="*"
 env_logger="*"
