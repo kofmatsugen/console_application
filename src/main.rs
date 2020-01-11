@@ -1,8 +1,9 @@
 use fight_game::paramater::AnimationParam;
 use sprite_studio_converter::convert_to_timeline;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), failure::Error> {
     env_logger::init();
+
     convert_to_timeline::<_, AnimationParam>(
         "amethyst_sandbox/resources",
         "data/sprite_studio/studio_logo/splash1024.sspj",
