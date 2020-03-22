@@ -3,12 +3,7 @@ mod opt;
 
 use config::Config;
 use fight_game::{
-    id::{
-        command::Command,
-        pack::{AnimationKey, PackKey},
-    },
-    paramater::AnimationParam,
-    resource::command::CommandList,
+    id::command::Command, paramater::FightTranslation, resource::command::CommandList,
 };
 use opt::Opt;
 use sprite_studio_converter::convert_to_timeline;
@@ -32,7 +27,7 @@ fn main() -> Result<(), failure::Error> {
 
     match &opt.command {
         opt::SubCommand::SpriteStudio => {
-            convert_to_timeline::<_, AnimationParam, PackKey, AnimationKey>(
+            convert_to_timeline::<_, FightTranslation>(
                 &config.resource_path,
                 &PathBuf::from("data/sprite_studio/sample/sample.sspj"),
             )?;
