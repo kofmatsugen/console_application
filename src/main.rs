@@ -16,7 +16,6 @@ use std::{
 use structopt::StructOpt;
 
 fn main() -> Result<(), failure::Error> {
-    env_logger::init();
     let opt = Opt::from_args();
 
     let config_path = opt
@@ -25,12 +24,14 @@ fn main() -> Result<(), failure::Error> {
 
     let config = read_config(&config_path)?;
 
+    init_log(&opt.verbose);
+
+    env_logger::init();
     match &opt.command {
         opt::SubCommand::SpriteStudio => {
-            convert_to_timeline::<_, FightTranslation>(
-                &config.resource_path,
-                &PathBuf::from("data/sprite_studio/sample/sample.sspj"),
-            )?;
+            for file in config.convert_animation_files {
+                convert_to_timeline::<_, FightTranslation>(&config.resource_path, &file)?;
+            }
         }
         opt::SubCommand::Command => {
             let dir = config.resource_path.join("command");
@@ -45,9 +46,21 @@ fn main() -> Result<(), failure::Error> {
 
             data_to_file(list, dir)?;
         }
+        opt::SubCommand::Test => {}
     }
 
     Ok(())
+}
+
+fn init_log(verbose: &opt::Verbose) {
+    let env_name = "RUST_LOG";
+    match verbose {
+        opt::Verbose::Info => std::env::set_var(env_name, "info"),
+        opt::Verbose::Error => std::env::set_var(env_name, "error"),
+        opt::Verbose::Debug => std::env::set_var(env_name, "debug"),
+        opt::Verbose::Trace => std::env::set_var(env_name, "trace"),
+        opt::Verbose::Warning => std::env::set_var(env_name, "warn"),
+    }
 }
 
 fn read_config<P: AsRef<Path>>(path: &P) -> Result<Config, failure::Error> {
