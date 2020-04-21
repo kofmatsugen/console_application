@@ -1,6 +1,7 @@
 mod config;
 mod opt;
 
+use amethyst_sprite_studio::splash::SplashTranslation;
 use config::Config;
 use fight_game::{
     id::command::Command, paramater::FightTranslation, resource::command::CommandList,
@@ -29,8 +30,11 @@ fn main() -> Result<(), failure::Error> {
     env_logger::init();
     match &opt.command {
         opt::SubCommand::SpriteStudio => {
-            for file in config.convert_animation_files {
+            for file in config.convert_fight_animations {
                 convert_to_timeline::<_, FightTranslation>(&config.resource_path, &file)?;
+            }
+            for file in config.convert_splash_animations {
+                convert_to_timeline::<_, SplashTranslation>(&config.resource_path, &file)?;
             }
         }
         opt::SubCommand::Command => {

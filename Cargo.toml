@@ -6,6 +6,7 @@ edition = "2018"
 
 [dependencies]
 amethyst = {git = "https://github.com/amethyst/amethyst.git"}
+amethyst-sprite-studio={path = "../amethyst-sprite-studio/"}
 sprite-studio-converter={path = "../sprite-studio-converter/"}
 fight_game={path="../fight_game/", features=["serialize"]}
 log= "0.4.8"
