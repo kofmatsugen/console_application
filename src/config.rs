@@ -5,4 +5,5 @@ pub struct Config {
     pub resource_path: std::path::PathBuf,
     pub convert_fight_animations: Vec<std::path::PathBuf>,
     pub convert_splash_animations: Vec<std::path::PathBuf>,
+    pub convert_test_animations: Vec<std::path::PathBuf>,
 }

@@ -1,4 +1,5 @@
 mod config;
+mod convert;
 mod opt;
 
 use amethyst_sprite_studio::splash::SplashTranslation;
@@ -31,10 +32,43 @@ fn main() -> Result<(), failure::Error> {
     match &opt.command {
         opt::SubCommand::SpriteStudio => {
             for file in config.convert_fight_animations {
-                convert_to_timeline::<_, FightTranslation>(&config.resource_path, &file)?;
+                log::info!("fight convert start: {:?} ", file);
+                match convert_to_timeline::<_, FightTranslation>(&config.resource_path, &file) {
+                    Ok(_) => {
+                        log::info!("fight convert success: {:?}", file);
+                    }
+                    Err(err) => {
+                        log::error!("fight convert fail: {:?}", file);
+                        log::error!("error: {:?}", err);
+                    }
+                }
             }
             for file in config.convert_splash_animations {
-                convert_to_timeline::<_, SplashTranslation>(&config.resource_path, &file)?;
+                log::info!("splash convert start: {:?} ", file);
+                match convert_to_timeline::<_, SplashTranslation>(&config.resource_path, &file) {
+                    Ok(_) => {
+                        log::info!("splash convert success: {:?}", file);
+                    }
+                    Err(err) => {
+                        log::error!("splash convert fail: {:?}", file);
+                        log::error!("error: {:?}", err);
+                    }
+                }
+            }
+            for file in config.convert_test_animations {
+                log::info!("test convert start: {:?} ", file);
+                match convert_to_timeline::<_, convert::test_convert::TestFile>(
+                    &config.resource_path,
+                    &file,
+                ) {
+                    Ok(_) => {
+                        log::info!("test convert success: {:?}", file);
+                    }
+                    Err(err) => {
+                        log::error!("test convert fail: {:?}", file);
+                        log::error!("error: {:?}", err);
+                    }
+                }
             }
         }
         opt::SubCommand::Command => {
