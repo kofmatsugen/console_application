@@ -39,7 +39,7 @@ fn main() -> Result<(), failure::Error> {
                     }
                     Err(err) => {
                         log::error!("fight convert fail: {:?}", file);
-                        log::error!("error: {:?}", err);
+                        log::error!("error: {}", err);
                     }
                 }
             }
@@ -51,7 +51,7 @@ fn main() -> Result<(), failure::Error> {
                     }
                     Err(err) => {
                         log::error!("splash convert fail: {:?}", file);
-                        log::error!("error: {:?}", err);
+                        log::error!("error: {}", err);
                     }
                 }
             }
@@ -66,7 +66,7 @@ fn main() -> Result<(), failure::Error> {
                     }
                     Err(err) => {
                         log::error!("test convert fail: {:?}", file);
-                        log::error!("error: {:?}", err);
+                        log::error!("error: {}", err);
                     }
                 }
             }
