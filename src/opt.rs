@@ -20,6 +20,8 @@ pub enum SubCommand {
     Command,
     #[structopt(about = "test amethyst")]
     Test,
+    #[structopt(about = "spirv")]
+    Spirv,
 }
 
 #[derive(StructOpt, Debug)]

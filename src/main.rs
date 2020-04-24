@@ -85,6 +85,53 @@ fn main() -> Result<(), failure::Error> {
             data_to_file(list, dir)?;
         }
         opt::SubCommand::Test => {}
+        opt::SubCommand::Spirv => {
+            let fragment_dir =
+                fs::canonicalize(Path::new("./amethyst-sprite-studio/src/shader/fragment"))?;
+            let fragment_out_dir = fs::canonicalize(Path::new(
+                "./amethyst-sprite-studio/src/shader/compiled/fragment",
+            ))?;
+            let compiler_path = fs::canonicalize(Path::new("./spirv/bin/glslangValidator.exe"))?;
+            for path in std::fs::read_dir(&fragment_dir)? {
+                let path = path?.path();
+                let compile_path = format!("{}", path.display());
+                let out_path = format!(
+                    "{}",
+                    fragment_out_dir
+                        .join(path.file_name().unwrap())
+                        .with_extension("frag.spv")
+                        .display()
+                );
+                log::info!("compile: {}", compile_path);
+                let output = std::process::Command::new(&compiler_path)
+                    .args(&["-H", &compile_path, "-o", &out_path])
+                    .output()?;
+                log::info!("compile status: {}", output.status);
+            }
+
+            let vertex_dir =
+                fs::canonicalize(Path::new("./amethyst-sprite-studio/src/shader/vertex"))?;
+            let vertex_out_dir = fs::canonicalize(Path::new(
+                "./amethyst-sprite-studio/src/shader/compiled/vertex",
+            ))?;
+            for path in std::fs::read_dir(&vertex_dir)? {
+                let path = path?.path();
+                let compile_path = format!("{}", path.display());
+                let out_path = format!(
+                    "{}",
+                    vertex_out_dir
+                        .join(path.file_name().unwrap())
+                        .with_extension("vert.spv")
+                        .display()
+                );
+                log::info!("compile: {}", compile_path);
+                let output = std::process::Command::new(&compiler_path)
+                    .args(&["-H", &compile_path, "-o", &out_path])
+                    .output()?;
+                log::info!("compile finish: {}", out_path);
+                log::info!("compile status: {}", output.status);
+            }
+        }
     }
 
     Ok(())
