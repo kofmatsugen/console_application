@@ -106,6 +106,8 @@ fn main() -> Result<(), failure::Error> {
                 let output = std::process::Command::new(&compiler_path)
                     .args(&["-H", &compile_path, "-o", &out_path])
                     .output()?;
+                log::info!("{}", String::from_utf8(output.stdout)?);
+                log::info!("compile finish: {}", out_path);
                 log::info!("compile status: {}", output.status);
             }
 
@@ -128,6 +130,7 @@ fn main() -> Result<(), failure::Error> {
                 let output = std::process::Command::new(&compiler_path)
                     .args(&["-H", &compile_path, "-o", &out_path])
                     .output()?;
+                log::info!("{}", String::from_utf8(output.stdout)?);
                 log::info!("compile finish: {}", out_path);
                 log::info!("compile status: {}", output.status);
             }
