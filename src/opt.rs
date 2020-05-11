@@ -16,6 +16,8 @@ pub struct Opt {
 pub enum SubCommand {
     #[structopt(about = "convert spritestudio data")]
     SpriteStudio,
+    #[structopt(about = "analyze fight skills")]
+    Analyze,
     #[structopt(about = "convert command data")]
     Command,
     #[structopt(about = "test amethyst")]

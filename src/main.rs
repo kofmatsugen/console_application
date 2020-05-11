@@ -135,6 +135,32 @@ fn main() -> Result<(), failure::Error> {
                 log::info!("compile status: {}", output.status);
             }
         }
+        opt::SubCommand::Analyze => {
+            for path in visit_dirs(&config.resource_path)?
+                .into_iter()
+                .filter_map(|f| {
+                    let file_name = format!("{}", f.display());
+                    if file_name.contains(".anim.ron") {
+                        Some(PathBuf::from(file_name))
+                    } else {
+                        None
+                    }
+                })
+            {
+                match ron::de::from_reader(std::fs::File::open(&path)?) {
+                    Ok(data) => log::info!(
+                        "{:?}: {:?}",
+                        path,
+                        fight_game::types::analyze::SkillInfomation::make_info(
+                            &data,
+                            fight_game::id::pack::PackKey::Base,
+                            fight_game::id::pack::AnimationKey::Punch
+                        )
+                    ),
+                    Err(_) => {}
+                };
+            }
+        }
     }
 
     Ok(())
@@ -181,14 +207,21 @@ where
     Ok(())
 }
 
-// fn file_to_data<T, P>(path: P) -> std::result::Result<T, failure::Error>
-// where
-//     T: serde::de::DeserializeOwned,
-//     P: AsRef<std::path::Path> + std::fmt::Debug,
-// {
-//     log::info!("load: {:?}", path);
-//     let file = std::fs::File::open(path)?;
-//     let buff = BufReader::new(file);
-//     let data = ron::de::from_reader(buff)?;
-//     Ok(data)
-// }
+// one possible implementation of walking a directory only visiting files
+fn visit_dirs<P: AsRef<Path>>(dir: &P) -> std::io::Result<Vec<PathBuf>> {
+    let dir = dir.as_ref();
+    let mut files = vec![];
+    if dir.is_dir() {
+        for entry in fs::read_dir(dir)? {
+            let entry = entry?;
+            let path = entry.path();
+            if path.is_dir() {
+                let mut nest_files = visit_dirs(&path)?;
+                files.append(&mut nest_files);
+            } else {
+                files.push(entry.path());
+            }
+        }
+    }
+    Ok(files)
+}
